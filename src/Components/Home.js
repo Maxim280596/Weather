@@ -16,7 +16,8 @@ const useStyles = makeStyles({
 const Home = () => {
   const classes = useStyles();
   const [citySearched, setCitySearched] = useState('');
-  const [getWeather, { data }] = useLazyQuery(GET_WEATHER_QUERY, {
+  const [error, setErrors] = useState(false);
+  const [getWeather, { data, loading }] = useLazyQuery(GET_WEATHER_QUERY, {
     variables: { name: citySearched },
   });
 
@@ -25,8 +26,17 @@ const Home = () => {
   }
 
   const setCity = (e) => {
+    if (!e.target.value) {
+      setErrors(true);
+    } else {
+      setErrors(false);
+    }
     setCitySearched(e.target.value);
   };
+
+  const getData = () => {
+    getWeather()
+  }
 
   return (
     <div className="home">
@@ -41,27 +51,32 @@ const Home = () => {
       >
         <h1>Search For Weather</h1>
       </Grid>
-      <Search setCity={setCity} getWeather={getWeather} />
+      <Search setCity={setCity} getData={getData} error={error} />
+      <div>{loading ? <div>Loading...</div> : ''}</div>
       <div>
         {data ? (
           <>
-            <WeatherCard
-              city={data.getCityByName.name}
-              country={data.getCityByName.country}
-              temperature={data.getCityByName.weather.temperature.actual}
-              description={data.getCityByName.weather.summary.description}
-              wind={data.getCityByName.weather.wind.speed}
-              icon={data.getCityByName.weather.summary.icon}
-              max={data.getCityByName.weather.temperature.max}
-              min={data.getCityByName.weather.temperature.min}
-              feelsLike={data.getCityByName.weather.temperature.feelsLike}
-              all={data.getCityByName.weather.clouds.all}
-              humidity={data.getCityByName.weather.clouds.humidity}
-              visibility={data.getCityByName.weather.clouds.visibility}
-            />
+            {data.getCityByName === null ? (
+              <h2>Error! Please, enter the correct city name!</h2>
+            ) : (
+              <WeatherCard
+                city={data.getCityByName.name}
+                country={data.getCityByName.country}
+                temperature={data.getCityByName.weather.temperature.actual}
+                description={data.getCityByName.weather.summary.description}
+                wind={data.getCityByName.weather.wind.speed}
+                icon={data.getCityByName.weather.summary.icon}
+                max={data.getCityByName.weather.temperature.max}
+                min={data.getCityByName.weather.temperature.min}
+                feelsLike={data.getCityByName.weather.temperature.feelsLike}
+                all={data.getCityByName.weather.clouds.all}
+                humidity={data.getCityByName.weather.clouds.humidity}
+                visibility={data.getCityByName.weather.clouds.visibility}
+              />
+            )}
           </>
         ) : (
-          <h1>Please enter your city or press button Search </h1>
+          <h2>Please enter your city and press button Search </h2>
         )}
       </div>
     </div>

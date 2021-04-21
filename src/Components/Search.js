@@ -18,16 +18,18 @@ const StyledButton = withStyles({
   },
 })(Button);
 
-const Search = ({ setCity, getWeather }) => {
+const Search = ({ setCity, getData, error }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={10}>
         <TextField
           fullWidth
-          error={false}
+          error={error}
+          data-testid="custom-input"
           id="standard-basic"
           label="City name..."
           onBlur={(e) => setCity(e)}
+          // value= ""
         />
       </Grid>
       <Grid item xs={2}>
@@ -35,7 +37,7 @@ const Search = ({ setCity, getWeather }) => {
           size="large"
           variant="contained"
           color="primary"
-          onClick={() => getWeather()}
+          onClick={getData}
         >
           <Icon>search</Icon>Search
         </StyledButton>

@@ -7,12 +7,12 @@ import Home from './Components/Home';
 function App() {
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: "https://graphql-weather-api.herokuapp.com/"
-  })
+    uri: 'https://graphql-weather-api.herokuapp.com/',
+  });
   return (
     <ApolloProvider client={client}>
       <Container maxWidth="md">
-      <Home />
+        <Home />
       </Container>
     </ApolloProvider>
   );

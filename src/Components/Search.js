@@ -5,21 +5,18 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
 
-
 const StyledButton = withStyles({
   root: {
     borderRadius: 3,
     border: 0,
-    color: 'white',
+    color: 'black',
     height: 48,
     padding: '0 30px',
-    
   },
   label: {
     textTransform: 'capitalize',
   },
 })(Button);
-
 
 const Search = ({ setCity, getWeather }) => {
   return (

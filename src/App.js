@@ -1,7 +1,9 @@
-import './App.css';
-import Home from './Components/Home';
+import React from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Container from '@material-ui/core/Container';
+
+import Home from './Components/Home';
+
 function App() {
   const client = new ApolloClient({
     cache: new InMemoryCache(),

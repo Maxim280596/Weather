@@ -3,16 +3,14 @@ import Thermometer from 'react-thermometer-component';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
-    margin: '20px 0',
+    margin: '30px 0',
     minWidth: 275,
-    minHeight: 300,
+    minHeight: 280,
 
     background: 'rgba(255, 255, 255, 0.3)',
   },
@@ -29,12 +27,19 @@ const useStyles = makeStyles({
     marginBottom: 12,
     opacity: 1,
     color: 'black',
+    marginTop: 20,
+    paddingsLeft: 10,
+    fontSize: 20,
   },
   term: {
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  info: {
+    paddingsLeft: 10,
   },
   temp: {
-    fontSize: '20px',
+    paddingTop: -15,
   },
 });
 
@@ -45,6 +50,12 @@ const WeatherCard = ({
   description,
   country,
   icon,
+  min,
+  max,
+  feelsLike,
+  all,
+  humidity,
+  visibility,
 }) => {
   const convertToCelsium = (K) => {
     return Math.trunc(K - 273.15);
@@ -55,26 +66,37 @@ const WeatherCard = ({
   return (
     <Grid item xs={12}>
       <Card className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={9}>
+        <Grid container spacing={5}>
+          <Grid item xs={8} className={classes.info}>
             <CardContent>
-              <Typography variant="h4" component="h2">
+              <Typography variant="h4" component="h2" align="center">
                 {city}
                 {bull}
                 {country}
               </Typography>
               <Typography className={classes.pos} color="textSecondary">
-                {description}
+                <b>Temperature: </b>
+                actual: {convertToCelsium(temperature)}°C, feelsLike:{' '}
+                {convertToCelsium(feelsLike)}°C, min: {convertToCelsium(min)}°C,
+                max: {convertToCelsium(max)}°C
               </Typography>
-              <Typography variant="body2" component="p">
-                Wind Speed: {wind}per/second
+              <Typography className={classes.pos} color="textSecondary">
+                <b>Description:</b> {description}
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                <b>Wind Speed:</b> {wind}km per/hour
+              </Typography>
+
+              <Typography className={classes.pos} color="textSecondary">
+                <b>Clouds: </b>
+                all: {all} %, humidity: {humidity}%, visibility: {visibility}
               </Typography>
             </CardContent>
           </Grid>
           <Grid
             container
             item
-            xs={3}
+            xs={4}
             className={classes.term}
             direction="row"
             justify="center"
@@ -86,7 +108,7 @@ const WeatherCard = ({
               max="100"
               format="°C"
               size="large"
-              height="250"
+              height="230"
               className={classes.temp}
             />
           </Grid>

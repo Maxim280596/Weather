@@ -15,11 +15,22 @@ describe('App', () => {
 
   it('should render Card after enter city and click on the button', async () => {
     render(<App />);
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: { value: 'Kyiv' },
+    fireEvent.blur(screen.getByRole('textbox'), {
+      target: { value: 'Lviv' },
     });
     fireEvent.click(screen.getByRole('button'));
-    await screen.findByText(/Kyiv/i);
-    expect(screen.queryByText(/Kyiv/i)).toBeInTheDocument();
+    await screen.findByText(/Lviv/i);
+    expect(screen.queryByText(/Lviv/i)).toBeInTheDocument();
+  });
+  it('should be enter uncorrect city', async () => {
+    render(<App />);
+    fireEvent.blur(screen.getByRole('textbox'), {
+      target: { value: 'Lvivsdfsdsdf' },
+    });
+    fireEvent.click(screen.getByRole('button'));
+    await screen.findByText(/Error! Please, enter the correct city name!/i);
+    expect(
+      screen.queryByText(/Error! Please, enter the correct city name!/i)
+    ).toBeInTheDocument();
   });
 });

@@ -11,13 +11,16 @@ const useStyles = makeStyles({
   center: {
     margin: '20px 0',
   },
+  err: {
+    color: 'red'
+  }
 });
 
 const Home = () => {
   const classes = useStyles();
   const [citySearched, setCitySearched] = useState('');
   const [error, setErrors] = useState(false);
-  const [getWeather, { data, loading }] = useLazyQuery(GET_WEATHER_QUERY, {
+  const [getWeather, { data }] = useLazyQuery(GET_WEATHER_QUERY, {
     variables: { name: citySearched },
   });
 
@@ -52,12 +55,11 @@ const Home = () => {
         <h1>Search For Weather</h1>
       </Grid>
       <Search setCity={setCity} getData={getData} error={error} />
-      <div>{loading ? <div>Loading...</div> : ''}</div>
       <div>
         {data ? (
           <>
             {data.getCityByName === null ? (
-              <h2>Error! Please, enter the correct city name!</h2>
+              <h2 className={classes.err}>Error! Please, enter the correct city name!</h2>
             ) : (
               <WeatherCard
                 city={data.getCityByName.name}
